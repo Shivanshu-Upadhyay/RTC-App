@@ -1,0 +1,13 @@
+.buttonWrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+    padding: 7px 40px;
+    border: none;
+    background: rgb(68, 28, 156);
+    color: wheat;
+    
+  }

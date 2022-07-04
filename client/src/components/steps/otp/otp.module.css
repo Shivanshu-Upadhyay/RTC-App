@@ -1,0 +1,3 @@
+.number{
+    composes : number from "../numEmail/numEmail.module.css"
+}
