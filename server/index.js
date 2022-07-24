@@ -1,4 +1,5 @@
 require("dotenv").config();
+const DbConnect = require("./database")
 const express = require("express");
 const cors = require("cors");
 const router   = require('./router/routes.js')
@@ -7,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());    
 app.use(router);
-
+DbConnect()
 app.listen(PORT,()=>{
     console.log("Server is running on port "+PORT+"✅");
 })
