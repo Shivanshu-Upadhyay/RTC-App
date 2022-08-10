@@ -6,7 +6,6 @@ const tokenService = require("../services/token-sevice");
 class AuthController {
   async sendOtp(req, res) {
     const { phone } = req.body;
-
     console.log(phone);
     if (!phone) {
       res.status(400).json({
@@ -28,6 +27,7 @@ class AuthController {
         message: "OTP sent successfully📱",
         hash: `${hash}.${expire}`,
         phone,
+        otp
       });
     } catch (error) {
       res.status(500).json({
@@ -40,13 +40,13 @@ class AuthController {
   async verifyOtp(req, res) {
     const { hash, otp, phone } = req.body;
     if (!hash || !otp || !phone) {
-      res.status(400).json({
+      res.status(201).json({
         message: "Kindly provide phone Number",
       });
     }
     const [hashedOtp, expire] = hash.split(".");
     if (Date.now() > +expire) {
-      return res.status(400).json({
+      return res.status(202).json({
         message: "OTP expired",
       });
     }

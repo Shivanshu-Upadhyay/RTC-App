@@ -6,7 +6,7 @@ const router = require("./router/routes.js");
 const app = express();
 // cors error
 const corsOption = {
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3002"],
   };
   app.use(cors(corsOption));
 const PORT = process.env.PORT || 5000;

@@ -4,14 +4,18 @@ import Button from "../../../commonComp/button/Button";
 import styles from "./numEmail.module.css";
 import { useState } from "react";
 import { sendOtp } from "../../../http/index";
+import { useDispatch } from "react-redux";
+import { setOtp } from "../../../redux/slice/authSlice";
 function NumEmail({ nextStep }) {
   const [changeMethod, setChangeMethod] = React.useState(0);
-  const [inputData,setInputData]= useState("")
-  const handleSubmit  = async ()=>{
-    const result = await sendOtp({"phone":inputData})
-    console.log(result.data);
+  const [inputData, setInputData] = useState("");
+  const dispatch = useDispatch();
+  const handleSubmit = async () => {
+    const { data } = await sendOtp({ phone: inputData });
+    console.log(data);
+    dispatch(setOtp({ phone: data.phone, hash: data.hash }));
     // nextStep();
-  }
+  };
   return (
     <>
       <div className="text-white  w-[24rem] flex justify-end items-center">
@@ -34,7 +38,11 @@ function NumEmail({ nextStep }) {
       </div>
       <Card>
         <div className="flex justify-center items-center font-bold text-lg mt-12 mb-7">
-          <img src={`./imgs/${changeMethod===0 ?"Emoji":"emailIcon"}.svg`} className="mx-2" alt="not found"/>
+          <img
+            src={`./imgs/${changeMethod === 0 ? "Emoji" : "emailIcon"}.svg`}
+            className="mx-2"
+            alt="not found"
+          />
           Enter your {changeMethod === 0 ? "phone number" : " email address"}
         </div>
 
@@ -52,7 +60,7 @@ function NumEmail({ nextStep }) {
               changeMethod === 0 ? "+91 7880811002" : "abc@gmail.com"
             }
             value={inputData}
-            onChange={(e)=>setInputData(e.target.value)}
+            onChange={(e) => setInputData(e.target.value)}
             className={`${styles.number} rounded-xl`}
           />
         </div>
