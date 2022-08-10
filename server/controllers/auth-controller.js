@@ -1,11 +1,13 @@
 const OtpService = require("../services/otp-service");
 const HashService = require("../services/hash-service");
 const otpService = require("../services/otp-service");
-const userService = require('../services/user-service')
-const tokenService = require("../services/token-sevice")
+const userService = require("../services/user-service");
+const tokenService = require("../services/token-sevice");
 class AuthController {
   async sendOtp(req, res) {
     const { phone } = req.body;
+
+    console.log(phone);
     if (!phone) {
       res.status(400).json({
         message: "Kindly provide phone Number",
@@ -20,8 +22,8 @@ class AuthController {
     const hash = await HashService.hashOtp(data);
     // Send OTP to user
     try {
-      await OtpService.sendBySms(phone, otp);
-    
+      // await OtpService.sendBySms(phone, otp);
+
       return res.json(200, {
         message: "OTP sent successfully📱",
         hash: `${hash}.${expire}`,
@@ -34,7 +36,7 @@ class AuthController {
       });
     }
   }
-  
+
   async verifyOtp(req, res) {
     const { hash, otp, phone } = req.body;
     if (!hash || !otp || !phone) {
@@ -43,44 +45,45 @@ class AuthController {
       });
     }
     const [hashedOtp, expire] = hash.split(".");
-    if(Date.now()>+expire){
+    if (Date.now() > +expire) {
       return res.status(400).json({
         message: "OTP expired",
       });
     }
     const data = `${phone}.${otp}.${expire}`;
-    const isValid = otpService.verifyOtp(hashedOtp,data)
-    if(!isValid){
+    const isValid = otpService.verifyOtp(hashedOtp, data);
+    if (!isValid) {
       res.status(400).json({
-        message:"OTP is invalid"
-      })
+        message: "OTP is invalid",
+      });
     }
     let user;
-    
+
     try {
-      user  = await userService.findUser({phone})
-      if(!user){
-       user= await userService.createUser({phone})
+      user = await userService.findUser({ phone });
+      if (!user) {
+        user = await userService.createUser({ phone });
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       res.status(500).json({
-        message:"Server Error"
-      })
+        message: "Server Error",
+      });
     }
-    
-  // JWT Token
-  const {accessToken,refereshToken}=tokenService.generateToken({_id:user._id,activeted:false});
-  
-  res.cookie("refreshToken",refereshToken,{
-    maxAge:1000*60*60*24*30,
-    httpOnly:true
-  })
-  res.status(200).json({
-    accessToken
-    
-  })
 
+    // JWT Token
+    const { accessToken, refereshToken } = tokenService.generateToken({
+      _id: user._id,
+      activeted: false,
+    });
+
+    res.cookie("refreshToken", refereshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+    res.status(200).json({
+      accessToken,
+    });
   }
 }
 

@@ -2,8 +2,16 @@ import React from "react";
 import Card from "../../../commonComp/card/Card";
 import Button from "../../../commonComp/button/Button";
 import styles from "./numEmail.module.css";
+import { useState } from "react";
+import { sendOtp } from "../../../http/index";
 function NumEmail({ nextStep }) {
   const [changeMethod, setChangeMethod] = React.useState(0);
+  const [inputData,setInputData]= useState("")
+  const handleSubmit  = async ()=>{
+    const result = await sendOtp({"phone":inputData})
+    console.log(result.data);
+    // nextStep();
+  }
   return (
     <>
       <div className="text-white  w-[24rem] flex justify-end items-center">
@@ -43,11 +51,13 @@ function NumEmail({ nextStep }) {
             placeholder={
               changeMethod === 0 ? "+91 7880811002" : "abc@gmail.com"
             }
+            value={inputData}
+            onChange={(e)=>setInputData(e.target.value)}
             className={`${styles.number} rounded-xl`}
           />
         </div>
         <div className="my-4">
-          <Button text="Next" handleClick={nextStep} />
+          <Button text="Next" handleClick={handleSubmit} />
         </div>
         <div className="my-5 text-sm text-[#C4C5C5]">
           By entering your number, you’re agreeing to our Terms of Service and
