@@ -3,12 +3,13 @@ const HashService = require("../services/hash-service");
 const otpService = require("../services/otp-service");
 const userService = require("../services/user-service");
 const tokenService = require("../services/token-sevice");
+ 
 class AuthController {
   async sendOtp(req, res) {
     const { phone } = req.body;
-    console.log(phone);
+      
     if (!phone) {
-      res.status(400).json({
+      res.status(203).json({
         message: "Kindly provide phone Number",
       });
     }
@@ -53,12 +54,12 @@ class AuthController {
     const data = `${phone}.${otp}.${expire}`;
     const isValid = otpService.verifyOtp(hashedOtp, data);
     if (!isValid) {
-      res.status(400).json({
+      res.status(201).json({
         message: "OTP is invalid",
       });
     }
-    let user;
 
+    let user;
     try {
       user = await userService.findUser({ phone });
       if (!user) {
@@ -77,12 +78,18 @@ class AuthController {
       activeted: false,
     });
 
+    await tokenService.storeRefreshToken( user._id,refereshToken)
     res.cookie("refreshToken", refereshToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
     });
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
     res.status(200).json({
-      accessToken,
+      user,auth:true
     });
   }
 }

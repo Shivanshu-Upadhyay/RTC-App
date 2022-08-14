@@ -5,15 +5,18 @@ const initialState = {
   user: null,
   otp: {
     phone: "",
-    hash: ",",
+    hash: "",
   },
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: "authReducer",
   initialState,
   reducers: {
-    setAuth: (state, action) => {},
+    setAuth: (state, action) => {
+      state.user = action.payload
+      state.isAuth=true
+    },
     setOtp: (state, action) => {
       const { phone, hash } = action.payload;
       state.otp.phone = phone;

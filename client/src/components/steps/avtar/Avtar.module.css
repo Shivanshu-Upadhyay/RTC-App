@@ -1,0 +1,14 @@
+.imgConatainer{
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.imgConatainer img{
+    width: 110px;
+    height: 110px;
+}

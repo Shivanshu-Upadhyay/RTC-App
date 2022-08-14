@@ -14,7 +14,7 @@ function NumEmail({ nextStep }) {
     const { data } = await sendOtp({ phone: inputData });
     console.log(data);
     dispatch(setOtp({ phone: data.phone, hash: data.hash }));
-    // nextStep();
+    nextStep();
   };
   return (
     <>
