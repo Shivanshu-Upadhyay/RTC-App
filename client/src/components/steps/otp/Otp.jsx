@@ -10,7 +10,6 @@ function Otp({nextStep}) {
   let dispatch = useDispatch()
   const [otp,setOtp]=useState('');
   const {phone,hash} = useSelector((state)=>state.authReducer.otp)
-  console.log(phone,hash);
   const handleSubmit = async()=>{
     try {
     const {data} = await verifyOtp({otp,phone,hash})

@@ -3,11 +3,10 @@ const HashService = require("../services/hash-service");
 const otpService = require("../services/otp-service");
 const userService = require("../services/user-service");
 const tokenService = require("../services/token-sevice");
- 
+
 class AuthController {
   async sendOtp(req, res) {
     const { phone } = req.body;
-      
     if (!phone) {
       res.status(203).json({
         message: "Kindly provide phone Number",
@@ -28,7 +27,7 @@ class AuthController {
         message: "OTP sent successfully📱",
         hash: `${hash}.${expire}`,
         phone,
-        otp
+        otp,
       });
     } catch (error) {
       res.status(500).json({
@@ -78,7 +77,7 @@ class AuthController {
       activeted: false,
     });
 
-    await tokenService.storeRefreshToken( user._id,refereshToken)
+    await tokenService.storeRefreshToken(user._id, refereshToken);
     res.cookie("refreshToken", refereshToken, {
       maxAge: 1000 * 60 * 60 * 24 * 30,
       httpOnly: true,
@@ -89,7 +88,68 @@ class AuthController {
     });
 
     res.status(200).json({
-      user,auth:true
+      user,
+      auth: true,
+    });
+  }
+
+  async refreshToken(req, res) {
+    // Get refresh token from cookie
+    const { refreshToken: refreshTokenFromCookies } = req.cookies;
+    let userData;
+    // Verify refresh token
+    try {
+      userData = await tokenService.verifyRefreshToken(refreshTokenFromCookies);
+    } catch (error) {
+      res.status(401).json({
+        message: "Refreh Token Invalid",
+      });
+    }
+    // Cheach Token In DB
+    try {
+      let token = await tokenService.findRefershToken(
+        userData._id,
+        refreshTokenFromCookies
+      );
+      if (!token) {
+        res.status(402).json({
+          message: "Invalid Token",
+        });
+      }
+    } catch (error) {
+      res.status(502).json({
+        message: "Token not in DB",
+      });
+    }
+
+    // Check if vailid user
+    const user = await userService.findUser({ _id: userData._id });
+    // Generate New tokens
+    const { accessToken, refereshToken } = tokenService.generateToken({
+      _id: userData._id,
+    });
+    try {
+      // Update Refresh token
+     await tokenService.updateRefreshToken(refereshToken,userData._id);
+    } catch (error) {
+      res.status(500).json({
+        message: "Error Update Refresh token",
+      });
+    }
+    // Put it On Cookies
+    res.cookie("refreshToken", refereshToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+    res.cookie("accessToken", accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      message: "Successfully Update✅",
+      user,
+      auth: true,
     });
   }
 }

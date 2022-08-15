@@ -14,7 +14,7 @@ module.exports = async function (req, res, next) {
     next();
   } catch (error) {
     res.status(401).json({
-      message: "Invailed Token",
+      message: "Invailed Token Middelware",
     });
   }
 };
