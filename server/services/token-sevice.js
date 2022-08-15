@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const refreshModel = require("../models/refresh-model");
+const accessTokenSec = process.env.JWT_ACCESS_TOKEN_SECRET
 class TokenService {
   generateToken(payload) {
     const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {
@@ -21,6 +22,9 @@ class TokenService {
   }catch(err){
     console.log(err.message);
   }
+  }
+ async verifyAccessToken(token){
+  return jwt.verify(token,accessTokenSec) 
   }
 }
 

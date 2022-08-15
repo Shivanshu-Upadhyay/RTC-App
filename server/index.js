@@ -5,6 +5,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser")
 const router = require("./router/routes.js");
 const app = express();
+// Image accees to public
+app.use("/storage",express.static("storage"))
 // Cookie Parser
 app.use(cookieParser())
 // cors error

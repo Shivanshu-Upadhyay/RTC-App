@@ -5,6 +5,7 @@ import styles from "./Avtar.module.css";
 import {useDispatch,useSelector} from "react-redux"
 import {setProfile} from "../../../redux/slice/activateSlice"
 import {activated} from '../../../http/index'
+import {setAuth} from "../../../redux/slice/authSlice"
 function Avtar({ nextStep }) {
   const {userName,profile_img} = useSelector(state=>state.activateReducer)
   const [img, setimg] = useState(profile_img?profile_img:"./imgs/profile.svg")
@@ -23,6 +24,7 @@ function Avtar({ nextStep }) {
     try {
       const result =  await activated({name:userName,avatar:profile_img})
       console.log(result);
+      dispatch(setAuth(result.data.user))
       nextStep() 
     } catch (error) {
       console.log(error);
