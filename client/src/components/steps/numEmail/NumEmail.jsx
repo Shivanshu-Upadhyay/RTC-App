@@ -11,10 +11,13 @@ function NumEmail({ nextStep }) {
   const [inputData, setInputData] = useState("");
   const dispatch = useDispatch();
   const handleSubmit = async () => {
+    if (inputData.length <=2) {
     const { data } = await sendOtp({ phone: inputData });
     console.log(data);
     dispatch(setOtp({ phone: data.phone, hash: data.hash }));
     nextStep();
+    }
+    
   };
   return (
     <>

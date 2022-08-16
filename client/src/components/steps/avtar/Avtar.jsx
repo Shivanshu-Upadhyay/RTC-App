@@ -7,9 +7,11 @@ import {setProfile} from "../../../redux/slice/activateSlice"
 import {activated} from '../../../http/index'
 import {setAuth} from "../../../redux/slice/authSlice"
 import {useNavigate} from "react-router-dom";
+import Loader from "../../Loader/Loader";
 function Avtar({ nextStep }) {
   const {userName,profile_img} = useSelector(state=>state.activateReducer)
   const [img, setimg] = useState(profile_img?profile_img:"./imgs/profile.svg")
+  const [loading, setloading] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const chooseImg =(e)=>{
@@ -23,6 +25,8 @@ function Avtar({ nextStep }) {
   }
 
   const handleSubmit = async()=>{
+    setloading(true)
+    if(!userName&&!img){return}
     try {
       const result =  await activated({name:userName,avatar:profile_img})
       console.log(result);
@@ -30,10 +34,12 @@ function Avtar({ nextStep }) {
       navigate("/auth-page") 
     } catch (error) {
       console.log(error);
+    }finally{
+      setloading(false)
     }
   
   }
-  return (
+  return ( loading?<Loader/>:
     <Card>
       <div className="flex justify-center items-center font-bold text-lg mt-12 mb-7">
         <span className=" text-3xl">😎</span>Okay, Upload Your pick!

@@ -11,14 +11,17 @@ function Otp({nextStep}) {
   const [otp,setOtp]=useState('');
   const {phone,hash} = useSelector((state)=>state.authReducer.otp)
   const handleSubmit = async()=>{
-    try {
-    const {data} = await verifyOtp({otp,phone,hash})
-    console.log(data);
-    dispatch(setAuth({user:data.user}))
-    nextStep()
-    } catch (error) {
-      console.log(error);
+    if(otp.length===4){
+      try {
+        const {data} = await verifyOtp({otp,phone,hash})
+        console.log(data);
+        dispatch(setAuth({user:data.user}))
+        nextStep()
+        } catch (error) {
+          console.log(error);
+        }
     }
+    
     
   }
   return (

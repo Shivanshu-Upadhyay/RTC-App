@@ -12,13 +12,13 @@ function Routers() {
   return (
     <>
       {loading ? (
-        "Loading..."
+        <Loader />
       ) : (
         <Routes>
           <Route path="/" element={<Home />}>
             <Route path="/" element={<Welcome />} />
             <Route path="/register" element={<Register />} />
-            {isAuth?<Route path="/auth-page" element={<Loader message="Wait a While"/> } />:<Route path="/" element={<Welcome />} />}
+            {isAuth?<Route path="/auth-page" element={"Welcome to room" } />:<Route path="/" element={<Welcome />} />}
             <Route path="*" element={<Welcome />} />
           </Route>
         </Routes>
