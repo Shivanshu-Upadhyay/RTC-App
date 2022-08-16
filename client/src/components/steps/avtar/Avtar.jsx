@@ -6,10 +6,12 @@ import {useDispatch,useSelector} from "react-redux"
 import {setProfile} from "../../../redux/slice/activateSlice"
 import {activated} from '../../../http/index'
 import {setAuth} from "../../../redux/slice/authSlice"
+import {useNavigate} from "react-router-dom";
 function Avtar({ nextStep }) {
   const {userName,profile_img} = useSelector(state=>state.activateReducer)
   const [img, setimg] = useState(profile_img?profile_img:"./imgs/profile.svg")
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const chooseImg =(e)=>{
     const file =e.target.files[0];
     const reader = new FileReader();
@@ -25,7 +27,7 @@ function Avtar({ nextStep }) {
       const result =  await activated({name:userName,avatar:profile_img})
       console.log(result);
       dispatch(setAuth(result.data.user))
-      nextStep() 
+      navigate("/auth-page") 
     } catch (error) {
       console.log(error);
     }

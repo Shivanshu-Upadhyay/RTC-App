@@ -12,6 +12,7 @@ class AuthController {
         message: "Kindly provide phone Number",
       });
     }
+    
     // Generate OTP
     const otp = await OtpService.generateOtp();
     // Hash the OTP
@@ -96,6 +97,12 @@ class AuthController {
   async refreshToken(req, res) {
     // Get refresh token from cookie
     const { refreshToken: refreshTokenFromCookies } = req.cookies;
+    if (!refreshTokenFromCookies) {
+      return res.status(202).json({
+        message: "No refresh token found",
+        auth: false,
+      });
+    }
     let userData;
     // Verify refresh token
     try {
@@ -109,10 +116,9 @@ class AuthController {
     try {
       let token = await tokenService.findRefershToken(
         userData._id,
-        refreshTokenFromCookies
       );
       if (!token) {
-        res.status(402).json({
+        res.status(400).json({
           message: "Invalid Token",
         });
       }
@@ -151,6 +157,15 @@ class AuthController {
       user,
       auth: true,
     });
+  }
+  async logout(req,res){
+    const {refreshToken} = req.cookies
+    // Delete Refresh Token from DB
+   await tokenService.removeToken(refreshToken)
+    // Delete cookies
+    res.clearCookie("refreshToken")
+    res.clearCookie("accessToken")
+    res.status(200).json({user:null,auth:false})
   }
 }
 
