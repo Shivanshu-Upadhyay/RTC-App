@@ -98,8 +98,8 @@ class AuthController {
     // Get refresh token from cookie
     const { refreshToken: refreshTokenFromCookies } = req.cookies;
     if (!refreshTokenFromCookies) {
-      return res.status(202).json({
-        message: "No refresh token found",
+      return res.status(401).json({
+        user:null,
         auth: false,
       });
     }
@@ -153,7 +153,6 @@ class AuthController {
     });
 
     res.status(200).json({
-      message: "Successfully Update✅",
       user,
       auth: true,
     });

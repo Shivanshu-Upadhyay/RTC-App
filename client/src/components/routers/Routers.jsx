@@ -5,6 +5,7 @@ import Home from "../../screen/home/Home";
 import Welcome from "../../components/welcome/Welcome";
 import Register from "../../screen/register/Register";
 import { useLoadingWithRef } from "../../hooks/useLoadingWithref";
+import Loader from "../Loader/Loader";
 function Routers() {
   const { loading } = useLoadingWithRef();
   const { isAuth } = useSelector((state) => state.authReducer);
@@ -17,7 +18,7 @@ function Routers() {
           <Route path="/" element={<Home />}>
             <Route path="/" element={<Welcome />} />
             <Route path="/register" element={<Register />} />
-            {isAuth?<Route path="/auth-page" element={"user Login" } />:<Route path="/" element={<Welcome />} />}
+            {isAuth?<Route path="/auth-page" element={<Loader message="Wait a While"/> } />:<Route path="/" element={<Welcome />} />}
             <Route path="*" element={<Welcome />} />
           </Route>
         </Routes>

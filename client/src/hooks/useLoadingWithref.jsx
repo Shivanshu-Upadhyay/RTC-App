@@ -10,18 +10,15 @@ export function  useLoadingWithRef() {
   useEffect(() => {
     (async () => {
       try {
-        const { data,auth } = await axios.get(
+        const { data } = await axios.get(
           `${process.env.REACT_APP_API_URL}/refresh`,
           { withCredentials: true }
         );
-        if(auth){
           dispatch(setAuth(data))
           setLoading(false);
-        }
-        setLoading(false);
-        
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     })();
   }, []);
