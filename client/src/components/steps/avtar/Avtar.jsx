@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import Card from "../../../commonComp/card/Card";
 import Button from "../../../commonComp/button/Button";
 import styles from "./Avtar.module.css";
@@ -12,6 +12,7 @@ function Avtar({ nextStep }) {
   const {userName,profile_img} = useSelector(state=>state.activateReducer)
   const [img, setimg] = useState(profile_img?profile_img:"./imgs/profile.svg")
   const [loading, setloading] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const chooseImg =(e)=>{
@@ -30,8 +31,12 @@ function Avtar({ nextStep }) {
     try {
       const result =  await activated({name:userName,avatar:profile_img})
       console.log(result);
-      dispatch(setAuth(result.data.user))
-      navigate("/auth-page") 
+      
+        dispatch(setAuth(result.data.user))
+        navigate("/auth-page")
+        
+     
+       
     } catch (error) {
       console.log(error);
     }finally{
@@ -39,6 +44,11 @@ function Avtar({ nextStep }) {
     }
   
   }
+
+  useEffect(()=>{
+    return ()=>{setMounted(true)} 
+    
+  },[])
   return ( loading?<Loader/>:
     <Card>
       <div className="flex justify-center items-center font-bold text-lg mt-12 mb-7">

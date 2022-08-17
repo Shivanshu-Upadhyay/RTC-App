@@ -1,3 +1,11 @@
+.cardContainer{
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .card {
     width: 25rem;
     height: auto;

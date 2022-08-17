@@ -11,7 +11,7 @@ function NumEmail({ nextStep }) {
   const [inputData, setInputData] = useState("");
   const dispatch = useDispatch();
   const handleSubmit = async () => {
-    if (inputData.length <=2) {
+    if (inputData.length >=2) {
     const { data } = await sendOtp({ phone: inputData });
     console.log(data);
     dispatch(setOtp({ phone: data.phone, hash: data.hash }));
@@ -21,6 +21,8 @@ function NumEmail({ nextStep }) {
   };
   return (
     <>
+      
+      <Card>
       <div className="text-white  w-[24rem] flex justify-end items-center">
         <span
           className={`${
@@ -39,7 +41,6 @@ function NumEmail({ nextStep }) {
           <img src="./imgs/email.svg" alt="" />
         </span>
       </div>
-      <Card>
         <div className="flex justify-center items-center font-bold text-lg mt-12 mb-7">
           <img
             src={`./imgs/${changeMethod === 0 ? "Emoji" : "emailIcon"}.svg`}

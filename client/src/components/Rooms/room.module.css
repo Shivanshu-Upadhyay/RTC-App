@@ -1,0 +1,38 @@
+.box {
+  width: 98vw;
+}
+
+.button{
+    border: none;
+    border-radius: 30px;
+    color: white;
+    background: #20BD5F;
+    padding: 8px 25px;
+    font-weight: 600;
+    
+}
+.searchContainer{
+    position: relative;
+}
+.searchIcon{
+    position: absolute;
+    left: 9.8rem;
+    top: 4.7rem;
+    color: #20BD5F;
+    font-size: larger;
+}
+.allVoice{
+    border-bottom: 3px solid #0077FF;
+    font-size: large;
+    
+}
+
+.search{
+    border: none;
+    outline: none;
+    margin: 0px 10px;
+    border-radius: 30px;
+    color: black;
+    font-weight: 600; 
+    padding: 6px 35px;
+}
