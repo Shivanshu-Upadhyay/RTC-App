@@ -1,38 +1,96 @@
 .box {
   width: 98vw;
+  position: relative;
 }
 
-.button{
-    border: none;
-    border-radius: 30px;
-    color: white;
-    background: #20BD5F;
-    padding: 8px 25px;
-    font-weight: 600;
-    
-}
-.searchContainer{
-    position: relative;
-}
-.searchIcon{
-    position: absolute;
-    left: 9.8rem;
-    top: 4.7rem;
-    color: #20BD5F;
-    font-size: larger;
-}
-.allVoice{
-    border-bottom: 3px solid #0077FF;
-    font-size: large;
-    
+.button {
+  border: none;
+  border-radius: 30px;
+  color: white;
+  background: #20bd5f;
+  padding: 8px 25px;
+  font-weight: 600;
 }
 
-.search{
-    border: none;
-    outline: none;
-    margin: 0px 10px;
-    border-radius: 30px;
-    color: black;
-    font-weight: 600; 
-    padding: 6px 35px;
+.searchIcon {
+  position: absolute;
+  left: 9.8rem;
+  top: 0.7rem;
+  color: #20bd5f;
+  font-size: larger;
+}
+.allVoice {
+  border-bottom: 3px solid #0077ff;
+  font-size: large;
+}
+
+.search {
+  border: none;
+  outline: none;
+  margin: 0px 10px;
+  border-radius: 30px;
+  color: black;
+  font-weight: 600;
+  padding: 6px 35px;
+}
+
+.meetingCard {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  background: #1d1d1d;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.roundedImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #0077ff;
+}
+.roundedImg2 {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  top: 25px;
+  right: -26px;
+  z-index: 9999999;
+  border: 3px solid #20bd5f;
+}
+
+.cardContainer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgb(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999999;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  background: #1d1d1d;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 9999999;
+}
+
+.inputField{
+  background: #262626;
+  color: aliceblue;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  width: 90%;
+  padding: 1px 10px;
 }

@@ -27,13 +27,13 @@ function Home() {
         {isAuth ? (
           <div className="flex justify-center items-center">
             <span>{user?.name}</span>
+            <div className={`${styles.roundedImg} mx-3`} >
             <img
               src={user?.avatar}
               alt="not found"
-              className="rounded-full mx-2 "
-              width="40"
-              height="40"
             />
+            </div>
+            
             <button className={`${styles.logoutBtn}`} onClick={logoutUser}>
               <i className={`fa-solid fa-right-from-bracket`} />
             </button>
@@ -46,5 +46,10 @@ function Home() {
     </div>
   );
 }
+
+
+
+
+
 
 export default Home;
