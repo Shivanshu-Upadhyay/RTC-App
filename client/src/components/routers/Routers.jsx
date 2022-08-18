@@ -16,12 +16,16 @@ function Routers() {
         <Loader />
       ) : (
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route path="/" element={<Welcome />} />
-            <Route path="/register" element={<Register />} />
-            {isAuth?<Route path="/auth-page" element={<Room/> } />:<Route path="/" element={<Welcome />} />}
-            <Route path="*" element={<Welcome />} />
-          </Route>
+          {isAuth ? (
+            <Route path="/" element={<Home />}>
+              <Route path="/auth-page" element={<Room />} />
+            </Route>
+          ) : (
+            <Route path="/" element={<Home />}>
+              <Route path="/" element={<Welcome />} />
+              <Route path="/register" element={<Register />} />
+            </Route>
+          )}
         </Routes>
       )}
     </>
