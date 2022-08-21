@@ -16,7 +16,7 @@ class ActivateController {
     const imagePath = `${Date.now()}-${Math.round(Math.random() * 1e9)}.png`;
     try {
       const jimpResp = await Jimp.read(buffer);
-      jimpResp.resize(150, Jimp.AUTO).write(path.resolve(__dirname, `../storage/${imagePath}`));
+      jimpResp.resize(150, 150).write(path.resolve(__dirname, `../storage/${imagePath}`));
     } catch (error) {
       res.status(500).json({
         message: "Server Error Img Processing",

@@ -1,10 +1,23 @@
 import React from "react";
 import styles from "./room.module.css";
-import { createRoomServer } from "../../http";
+import { createRoomServer,getAllRooms } from "../../http";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 function Room() {
   const [model, setmodel] = useState(false);
   const [topicName, setTopicName] = useState("");
+  const [roomData, setroomData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const {data} = await getAllRooms();
+      console.log(data);
+      setroomData(data.rooms)
+    }
+    fetchData();
+  }, []);
+
   return (
     <>
       <hr />
@@ -24,18 +37,12 @@ function Room() {
           </button>
         </div>
         <div className="mx-3 mt-12 flex flex-wrap justify-around gap-5 content-around">
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
-          <Meetingbox />
+         {roomData?.map((item,index) => {
+            return (
+              <Meetingbox data={item} key={index} />
+            )
+         })}
+         
         </div>
         {model ? (
           <div>
@@ -50,31 +57,33 @@ function Room() {
     </>
   );
 }
-const Meetingbox = () => {
+const Meetingbox = ({data}) => {
+  const navigate = useNavigate();
   return (
-    <div className={`${styles.meetingCard}`}>
-      <h5>Which framework best for frontend ?</h5>
+    <div className={`${styles.meetingCard} cursor-pointer`} onClick={()=>navigate(`/room/${data._id}`)}>
+      <h5>{data.topic}</h5>
       <div className={`flex justify-between items-center mx-3 my-2`}>
         <div className={`flex relative`}>
           <div className={`${styles.roundedImg}`}>
-            <img src="https://picsum.photos/200/300" alt="Not found" />
+          
+            <img src={data.ownerId.avatar} alt="Not found" />
           </div>
           <div className={`${styles.roundedImg2}`}>
-            <img src="https://picsum.photos/200/300" alt="Not found" />
+            <img src={data.speeckers[0].avatar} alt="Not found" />
           </div>
         </div>
         <div>
           <div>
-            Virat Kohli <i className="fa-solid fa-comment" />
+            {data.ownerId.name} <i className="fa-solid fa-comment" />
           </div>
           <div>
-            Anushka Sharma <i className="fa-solid fa-comment" />
+            {data.speeckers[0].name} <i className="fa-solid fa-comment" />
           </div>
         </div>
       </div>
       <div className="flex justify-end items-center my-3">
         <span>
-          8<i className="fa-solid fa-user mx-2" />
+          {data?.speeckers.length+1}<i className="fa-solid fa-user mx-2" />
         </span>
       </div>
     </div>
@@ -83,12 +92,20 @@ const Meetingbox = () => {
 
 const StartRoomModel = ({ setmodel, setTopicName, topicName }) => {
   const [active, setactive] = useState("open");
+  const navigate = useNavigate();
   const createRoom = async () => {
     // Server Call
     try {
-      const { data } = await createRoomServer({topic:topicName,roomType:active});
-      console.log(data);
-      setmodel(false)
+      if (!topicName || !active) {
+        return alert("All field Required");
+      }
+      const res = await createRoomServer({
+        topic: topicName,
+        roomType: active,
+      });
+      console.log(res.data);
+      setmodel(false);
+      navigate(`/room/${res.data.room._id}`);
     } catch (error) {
       console.log(error);
     }

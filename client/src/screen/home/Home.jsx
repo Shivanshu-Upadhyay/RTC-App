@@ -29,7 +29,7 @@ function Home() {
             <span>{user?.name}</span>
             <div className={`${styles.roundedImg} mx-3`} >
             <img
-              src={user?.avatar}
+              src={user?.avatar?user.avatar:"./imgs/Profile.svg"}
               alt="not found"
             />
             </div>

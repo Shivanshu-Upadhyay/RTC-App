@@ -7,6 +7,7 @@ import Register from "../../screen/register/Register";
 import { useLoadingWithRef } from "../../hooks/useLoadingWithref";
 import Loader from "../Loader/Loader";
 import Room from "../Rooms/Room";
+import RoomPage from "../../screen/room/RoomPage";
 function Routers() {
   const { loading } = useLoadingWithRef();
   const { isAuth } = useSelector((state) => state.authReducer);
@@ -19,6 +20,8 @@ function Routers() {
           {isAuth ? (
             <Route path="/" element={<Home />}>
               <Route path="/auth-page" element={<Room />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/room/:id" element={<RoomPage />} />
             </Route>
           ) : (
             <Route path="/" element={<Home />}>

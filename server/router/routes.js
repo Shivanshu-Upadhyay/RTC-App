@@ -9,9 +9,11 @@ router.post("/api/send-otp",AuthController.sendOtp)
 router.post("/api/verify-otp",AuthController.verifyOtp)
 router.get("/api/refresh",AuthController.refreshToken)
 
+
 // PROTECTED ROUTES💀💀
 router.post("/api/activateUser",authMiddleware,ActivateController.activateUser)
 router.post("/api/createRoomServer",authMiddleware,roomsController.createRoom)
+router.get("/api/getAllRooms",authMiddleware,roomsController.getAllRooms)
 router.post("/api/logout",authMiddleware,authController.logout)
 
 
