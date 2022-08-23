@@ -7,7 +7,7 @@ import Register from "../../screen/register/Register";
 import { useLoadingWithRef } from "../../hooks/useLoadingWithref";
 import Loader from "../Loader/Loader";
 import Room from "../Rooms/Room";
-import RoomPage from "../../screen/room/RoomPage";
+import RoomPage from "../../components/Room/RoomPage";
 function Routers() {
   const { loading } = useLoadingWithRef();
   const { isAuth } = useSelector((state) => state.authReducer);
